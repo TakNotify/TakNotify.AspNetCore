@@ -14,22 +14,15 @@ namespace TakNotify
         /// Instantiate the <see cref="NotificationBuilder"/>
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="providerFactory"></param>
-        public NotificationBuilder(IServiceCollection services, INotificationProviderFactory providerFactory)
+        public NotificationBuilder(IServiceCollection services)
         {
             Services = services;
-            ProviderFactory = providerFactory;
         }
 
         /// <summary>
         /// Collection of service descriptors
         /// </summary>
         public virtual IServiceCollection Services { get; }
-
-        /// <summary>
-        /// The notification provider factory
-        /// </summary>
-        public INotificationProviderFactory ProviderFactory { get; set; }
 
         /// <summary>
         /// Add a provider to the TakNotify service
@@ -46,8 +39,9 @@ namespace TakNotify
             Services.AddTransient<TProvider>();
             
             var sp = Services.BuildServiceProvider();
+            var notification = sp.GetService<INotification>();
             var provider = sp.GetService<TProvider>();
-            ProviderFactory.AddProvider(provider);
+            notification.AddProvider(provider);
 
             return this;
         }
