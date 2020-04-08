@@ -62,7 +62,7 @@ dotnet publish $csproj --configuration Release --output $buildOutput --no-build
 Write-Host
 Write-Host "5. Packing into NuGet package" -ForegroundColor Yellow
 
-dotnet pack $csproj --configuration Release --output $buildOutput --no-build -p:PackageVersion=$version
+dotnet pack $csproj --configuration Release --output $buildOutput --no-build -p:PackageVersion=$VersionPrefix
 
 Write-Host
 Write-Host "6. Finishing build" -ForegroundColor Yellow
