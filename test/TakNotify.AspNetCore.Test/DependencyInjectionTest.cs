@@ -46,5 +46,48 @@ namespace TakNotify.AspNetCore.Test
 
             _notification.Verify(n => n.AddProvider(It.IsAny<DummyProvider>()), Times.Once);
         }
+
+        [Fact]
+        public void AddProvider_WithHttp_Success()
+        {
+            _notification.Setup(n => n.AddProvider(It.IsAny<NotificationProvider>()))
+                .Returns(_notification.Object);
+
+            _services.AddSingleton(_notification.Object);
+
+            var builder = new NotificationBuilder(_services);
+            builder.AddProvider<DummyHttpProvider, NotificationProviderOptions>(options => { }, true);
+
+            _notification.Verify(n => n.AddProvider(It.IsAny<DummyHttpProvider>()), Times.Once);
+        }
+
+        [Fact]
+        public void AddProviders_Success()
+        {
+            _notification.Setup(n => n.AddProvider(It.IsAny<NotificationProvider>()))
+                .Returns(_notification.Object);
+
+            _services.AddSingleton(_notification.Object);
+
+            var builder = new NotificationBuilder(_services);
+            builder.AddProvider<DummyProvider, NotificationProviderOptions>(options => { });
+            builder.AddProvider<DummyHttpProvider, NotificationProviderOptions>(options => { }, true);
+
+            _notification.Verify(n => n.AddProvider(It.IsAny<NotificationProvider>()), Times.Exactly(2));
+        }
+
+        [Fact]
+        public void AddProvider_WithHttp_NoHttpClientFactory()
+        {
+            _notification.Setup(n => n.AddProvider(It.IsAny<NotificationProvider>()))
+                .Returns(_notification.Object);
+
+            _services.AddSingleton(_notification.Object);
+
+            var builder = new NotificationBuilder(_services);
+            var exception = Record.Exception(() => builder.AddProvider<DummyHttpProvider, NotificationProviderOptions>(options => { }));
+
+            Assert.IsType<NoHttpClientFactoryException>(exception);
+        }
     }
 }
