@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Summary>The extension for TakNotify library to work with ASP.NET Core apps</Summary>
     <Description>The extension for TakNotify library to work with ASP.NET Core apps</Description>
-    <Authors>Frandi Dwi</Authors>
+    <Authors>frandi-dwi</Authors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RepositoryUrl>https://github.com/TakNotify/TakNotify.AspNetCore</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
